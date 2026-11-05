@@ -1,7 +1,7 @@
 
 FROM ollama/ollama:latest
 
-WORKDIR /app
+WORKDIR /
 
 # Install Python
 RUN apt-get update && apt-get install -y python3 python3-pip python3-venv \
@@ -21,4 +21,4 @@ RUN chmod +x start.sh
 
 EXPOSE 8000 11434
 
-CMD ["/app/start.sh"]
+CMD ["/start.sh"]
