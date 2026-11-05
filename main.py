@@ -1,4 +1,10 @@
 import ollama
+
+client = ollama.Client(
+    host="http://localhost:11434"
+)
+
+MODEL = "llama3.2"
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
@@ -37,8 +43,8 @@ def chat(req: ChatRequest, hub_verify_token: str = Header(None)):
         req.session_id, [{"role": "system", "content": SYSTEM_PROMPT}]
     )
     history.append({"role": "user", "content": req.message})
-
-    r = ollama.chat(model=MODEL, messages=history)
+    r = client.chat(model=MODEL, messages=history)
+    #r = ollama.chat(model=MODEL, messages=history)
     answer = r["message"]["content"]
     history.append({"role": "assistant", "content": answer})
 
