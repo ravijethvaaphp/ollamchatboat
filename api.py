@@ -2,7 +2,7 @@ import ollama
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
-API_KEY = "asjdasfkudbvs@r4$acydjh823794652352abdskasbnda28903476124"
+API_KEY = "aATATT3xFfGF045ad11J2TariOkd94-twi2vhT4-nmasijK4doXof3-gUnZZkuGMvIkyGRuy0noanCpF6JTtq6hH8piTdEVqykoF2saathvaar"
 MODEL = "llama3.2:3b"
 
 knowledge = open("1.txt", encoding="utf-8").read()
@@ -18,14 +18,19 @@ app = FastAPI()
 sessions = {}  # session_id -> message history
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 class ChatRequest(BaseModel):
     session_id: str
     message: str
 
 
 @app.post("/chat")
-def chat(req: ChatRequest, x_api_key: str = Header(None)):
-    if x_api_key != API_KEY:
+def chat(req: ChatRequest, hub_verify_token: str = Header(None)):
+    if hub_verify_token != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
     history = sessions.setdefault(
