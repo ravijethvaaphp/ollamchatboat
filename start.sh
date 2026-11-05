@@ -1,7 +1,7 @@
 
 #!/bin/bash
 set -e
-
+python3 -m pip install ollama
 # Start Ollama
 ollama serve &
 OLLAMA_PID=$!
@@ -10,6 +10,7 @@ OLLAMA_PID=$!
 until curl -s http://localhost:11434/api/tags >/dev/null; do
     sleep 2
 done
+
 
 # Download model
 ollama pull llama3.2
